@@ -25,22 +25,22 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
   const speakText = (text: string) => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    
+
     // Set fallback language code
-    utterance.lang = 'en-GB'; 
+    utterance.lang = 'en-GB';
 
     // Explicitly search for a British voice
     const voices = window.speechSynthesis.getVoices();
     const britishVoice = voices.find(voice => voice.lang.includes('en-GB'));
-    
+
     if (britishVoice) {
-        utterance.voice = britishVoice;
-        console.debug("Using British voice:", britishVoice.name);
+      utterance.voice = britishVoice;
+      console.debug("Using British voice:", britishVoice.name);
     } else {
-        console.debug("British voice not found, using system default.");
+      console.debug("British voice not found, using system default.");
     }
-    
-    utterance.rate = 0.9; 
+
+    utterance.rate = 0.9;
     window.speechSynthesis.speak(utterance);
   };
 
@@ -94,34 +94,34 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
       <div className="flex flex-col gap-4 mt-2 mb-4 w-full">
         {/* User's Input */}
         <div translate="no">
-           <p className="text-xs text-zinc-500 mb-2 font-mono font-bold tracking-wider uppercase">Your Answer</p>
-           <div className="flex flex-wrap justify-center gap-1.5">
-             {userChars.map((char, i) => {
-               const match = correctChars[i] && char.toLowerCase() === correctChars[i].toLowerCase();
-               return (
-                 <span key={i} className={`
+          <p className="text-xs text-zinc-500 mb-2 font-mono font-bold tracking-wider uppercase">Your Answer</p>
+          <div className="flex flex-wrap justify-center gap-1.5">
+            {userChars.map((char, i) => {
+              const match = correctChars[i] && char.toLowerCase() === correctChars[i].toLowerCase();
+              return (
+                <span key={i} className={`
                    w-8 h-10 sm:w-10 sm:h-12 flex items-center justify-center rounded-sm text-xl font-bold border-b-2 font-mono
-                   ${match 
-                     ? 'bg-zinc-800 border-emerald-500 text-emerald-400' 
-                     : 'bg-zinc-800 border-red-500 text-red-400'}
+                   ${match
+                    ? 'bg-zinc-800 border-emerald-500 text-emerald-400'
+                    : 'bg-zinc-800 border-red-500 text-red-400'}
                  `}>
-                   {char}
-                 </span>
-               )
-             })}
-           </div>
+                  {char}
+                </span>
+              )
+            })}
+          </div>
         </div>
 
         {/* Correct Answer */}
         <div translate="no">
-           <p className="text-xs text-zinc-500 mb-2 font-mono font-bold tracking-wider uppercase">Correct Answer</p>
-           <div className="flex flex-wrap justify-center gap-1.5">
-             {correctChars.map((char, i) => (
-                <span key={i} className="w-8 h-10 sm:w-10 sm:h-12 flex items-center justify-center rounded-sm text-xl font-bold border-b-2 font-mono bg-zinc-800 border-yellow-500 text-yellow-500">
-                  {char}
-                </span>
-             ))}
-           </div>
+          <p className="text-xs text-zinc-500 mb-2 font-mono font-bold tracking-wider uppercase">Correct Answer</p>
+          <div className="flex flex-wrap justify-center gap-1.5">
+            {correctChars.map((char, i) => (
+              <span key={i} className="w-8 h-10 sm:w-10 sm:h-12 flex items-center justify-center rounded-sm text-xl font-bold border-b-2 font-mono bg-zinc-800 border-yellow-500 text-yellow-500">
+                {char}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -131,14 +131,13 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
     <div className="w-full max-w-3xl bg-zinc-800 rounded-md shadow-2xl p-4 md:p-8 border border-zinc-700 animate-fade-in-up">
       {/* Header Bar */}
       <div className="flex justify-between items-start mb-2 border-b border-zinc-700 pb-4">
-        <span className={`px-3 py-1 rounded-sm text-xs font-mono font-bold uppercase tracking-wider ${
-          question.difficulty === 'easy' ? 'bg-emerald-900/30 text-emerald-400 border border-emerald-800' :
-          question.difficulty === 'medium' ? 'bg-yellow-900/30 text-yellow-400 border border-yellow-800' :
-          'bg-red-900/30 text-red-400 border border-red-800'
-        }`}>
+        <span className={`px-3 py-1 rounded-sm text-xs font-mono font-bold uppercase tracking-wider ${question.difficulty === 'easy' ? 'bg-emerald-900/30 text-emerald-400 border border-emerald-800' :
+            question.difficulty === 'medium' ? 'bg-yellow-900/30 text-yellow-400 border border-yellow-800' :
+              'bg-red-900/30 text-red-400 border border-red-800'
+          }`}>
           {question.type === 'text-input' ? 'TYPE_INPUT' : question.difficulty.toUpperCase()}
         </span>
-        <button 
+        <button
           onClick={() => speakText(question.text)}
           className="p-2 bg-zinc-700 text-yellow-500 rounded-sm hover:bg-zinc-600 transition-colors"
           title="Read Question"
@@ -165,17 +164,16 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {question.options.map((option, idx) => {
             let variant: 'secondary' | 'success' | 'danger' = 'secondary';
-            
+
             if (isAnswered) {
+              // Always show correct answer in green
               if (option === question.correctAnswer) {
                 variant = 'success';
-              } else if (option === selectedAnswer && selectedAnswer !== question.correctAnswer) {
+              }
+              // Show selected wrong answer in red
+              else if (option === selectedAnswer) {
                 variant = 'danger';
               }
-            } else if (selectedAnswer === option) {
-               // This state usually doesn't persist long enough to matter in current logic, 
-               // but allows immediate feedback style
-               variant = 'primary' as any; 
             }
 
             return (
@@ -211,9 +209,9 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
                 autoCorrect="off"
                 spellCheck="false"
               />
-              <Button 
-                type="submit" 
-                variant="primary" 
+              <Button
+                type="submit"
+                variant="primary"
                 disabled={!textInput.trim()}
                 className="flex items-center justify-center gap-2 text-xl"
               >
@@ -222,21 +220,21 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
             </form>
           ) : (
             <div className="text-center w-full">
-               {selectedAnswer?.toLowerCase() === question.correctAnswer.toLowerCase() 
-                 ? (
-                   <div className="p-6 bg-emerald-900/20 rounded-md border border-emerald-800 mb-6 animate-bounce-in">
-                      <p className="text-sm text-emerald-500 font-mono font-bold uppercase tracking-wide mb-2">STATUS: CORRECT</p>
-                      <div className="text-3xl md:text-4xl font-mono font-black text-emerald-400 tracking-wide break-words" translate="no">
-                        {question.correctAnswer}
-                      </div>
-                   </div>
-                 )
-                 : (
-                    <div className="p-4 bg-red-900/20 rounded-md border border-red-800 mb-6 animate-shake">
-                      {renderComparison(selectedAnswer || '', question.correctAnswer)}
+              {selectedAnswer?.toLowerCase() === question.correctAnswer.toLowerCase()
+                ? (
+                  <div className="p-6 bg-emerald-900/20 rounded-md border border-emerald-800 mb-6 animate-bounce-in">
+                    <p className="text-sm text-emerald-500 font-mono font-bold uppercase tracking-wide mb-2">STATUS: CORRECT</p>
+                    <div className="text-3xl md:text-4xl font-mono font-black text-emerald-400 tracking-wide break-words" translate="no">
+                      {question.correctAnswer}
                     </div>
-                 )
-               }
+                  </div>
+                )
+                : (
+                  <div className="p-4 bg-red-900/20 rounded-md border border-red-800 mb-6 animate-shake">
+                    {renderComparison(selectedAnswer || '', question.correctAnswer)}
+                  </div>
+                )
+              }
             </div>
           )}
         </div>
@@ -244,28 +242,27 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
 
       {/* RESULT FEEDBACK */}
       {isAnswered && (
-        <div className={`mt-6 p-4 rounded-md border text-center animate-fade-in flex flex-col md:flex-row items-center justify-center gap-3 ${
-          selectedAnswer?.toLowerCase() === question.correctAnswer.toLowerCase() 
+        <div className={`mt-6 p-4 rounded-md border text-center animate-fade-in flex flex-col md:flex-row items-center justify-center gap-3 ${selectedAnswer?.toLowerCase() === question.correctAnswer.toLowerCase()
             ? 'bg-emerald-900/20 border-emerald-800 text-emerald-400'
             : 'bg-red-900/20 border-red-800 text-red-400'
-        }`}>
+          }`}>
           <div className="flex items-center gap-2">
-            {selectedAnswer?.toLowerCase() === question.correctAnswer.toLowerCase() 
-              ? <CheckCircle size={28} /> 
+            {selectedAnswer?.toLowerCase() === question.correctAnswer.toLowerCase()
+              ? <CheckCircle size={28} />
               : <XCircle size={28} />
             }
             <p className="font-mono font-bold text-lg">
-               {question.explanation}
+              {question.explanation}
             </p>
           </div>
-          
+
           {/* Replay Pronunciation Button */}
-          <button 
+          <button
             onClick={() => speakText(question.correctAnswer)}
             className="p-2 bg-zinc-800 hover:bg-zinc-700 rounded-full transition-colors border border-zinc-600 shadow-sm text-yellow-500"
             title="Listen to pronunciation"
           >
-             <Volume2 size={20} />
+            <Volume2 size={20} />
           </button>
         </div>
       )}
