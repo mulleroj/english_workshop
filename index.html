@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>THE ENGLISH WORKSHOP</title>
+    
+    <!-- CUSTOM ICONS (Data URI to bypass caching/manifest issues) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23222' rx='20'/%3E%3Ctext x='50' y='50' font-size='70' text-anchor='middle' dy='.35em'%3E⚙️%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23222' rx='20'/%3E%3Ctext x='50' y='50' font-size='70' text-anchor='middle' dy='.35em'%3E⚙️%3C/text%3E%3C/svg%3E">
+
+    <style>
+      /* INDUSTRIAL BACKGROUND ENFORCEMENT */
+      body {
+        /* Zkousime jednoduchou cestu k obrazku v korenovem adresari */
+        background-image: linear-gradient(rgba(18, 18, 18, 0.90), rgba(18, 18, 18, 0.90)), url('./background-workshop.jpg') !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        min-height: 100vh !important;
+        background-color: #1a1a1a !important; /* Zalozni barva */
+        margin: 0;
+        padding: 0;
+        color: #e4e4e7; /* Zinc-200 */
+      }
+      
+      /* Pojistka pro pruhlednost ostatnich vrstev */
+      html, #root, #app, .App {
+        background-color: transparent !important;
+        min-height: 100vh;
+      }
+
+      /* 3D Flip Utilities */
+      .perspective-1000 {
+        perspective: 1000px;
+      }
+      .transform-style-3d {
+        transform-style: preserve-3d;
+      }
+      .backface-hidden {
+        backface-visibility: hidden;
+      }
+      .rotate-y-180 {
+        transform: rotateY(180deg);
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "canvas-confetti": "https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/+esm"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
