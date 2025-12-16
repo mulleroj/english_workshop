@@ -132,8 +132,8 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
       {/* Header Bar */}
       <div className="flex justify-between items-start mb-2 border-b border-zinc-700 pb-4">
         <span className={`px-3 py-1 rounded-sm text-xs font-mono font-bold uppercase tracking-wider ${question.difficulty === 'easy' ? 'bg-emerald-900/30 text-emerald-400 border border-emerald-800' :
-            question.difficulty === 'medium' ? 'bg-yellow-900/30 text-yellow-400 border border-yellow-800' :
-              'bg-red-900/30 text-red-400 border border-red-800'
+          question.difficulty === 'medium' ? 'bg-yellow-900/30 text-yellow-400 border border-yellow-800' :
+            'bg-red-900/30 text-red-400 border border-red-800'
           }`}>
           {question.type === 'text-input' ? 'TYPE_INPUT' : question.difficulty.toUpperCase()}
         </span>
@@ -166,8 +166,8 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
             let variant: 'secondary' | 'success' | 'danger' = 'secondary';
 
             if (isAnswered) {
-              // Always show correct answer in green
-              if (option === question.correctAnswer) {
+              // Always show correct answer in green (case-insensitive comparison)
+              if (option.toLowerCase() === question.correctAnswer.toLowerCase()) {
                 variant = 'success';
               }
               // Show selected wrong answer in red
@@ -243,8 +243,8 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
       {/* RESULT FEEDBACK */}
       {isAnswered && (
         <div className={`mt-6 p-4 rounded-md border text-center animate-fade-in flex flex-col md:flex-row items-center justify-center gap-3 ${selectedAnswer?.toLowerCase() === question.correctAnswer.toLowerCase()
-            ? 'bg-emerald-900/20 border-emerald-800 text-emerald-400'
-            : 'bg-red-900/20 border-red-800 text-red-400'
+          ? 'bg-emerald-900/20 border-emerald-800 text-emerald-400'
+          : 'bg-red-900/20 border-red-800 text-red-400'
           }`}>
           <div className="flex items-center gap-2">
             {selectedAnswer?.toLowerCase() === question.correctAnswer.toLowerCase()
