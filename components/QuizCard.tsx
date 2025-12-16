@@ -167,11 +167,12 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
 
             if (isAnswered) {
               // Always show correct answer in green (case-insensitive comparison)
-              if (option.toLowerCase() === question.correctAnswer.toLowerCase()) {
+              // This check has PRIORITY - correct answer is always green, even if it was selected
+              if (option.toLowerCase().trim() === question.correctAnswer.toLowerCase().trim()) {
                 variant = 'success';
               }
-              // Show selected wrong answer in red
-              else if (option === selectedAnswer) {
+              // Show selected wrong answer in red (only if it's NOT the correct answer)
+              else if (option.toLowerCase().trim() === selectedAnswer?.toLowerCase().trim()) {
                 variant = 'danger';
               }
             }
@@ -183,7 +184,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
                 onClick={() => !isAnswered && onAnswer(option)}
                 disabled={isAnswered}
                 translate="no"
-                className={`text-lg py-4 font-bold ${isAnswered && option.toLowerCase() !== question.correctAnswer.toLowerCase() && option !== selectedAnswer ? 'opacity-30' : ''}`}
+                className={`text-lg py-4 font-bold ${isAnswered && option.toLowerCase().trim() !== question.correctAnswer.toLowerCase().trim() && option.toLowerCase().trim() !== selectedAnswer?.toLowerCase().trim() ? 'opacity-30' : ''}`}
               >
                 {option}
               </Button>
