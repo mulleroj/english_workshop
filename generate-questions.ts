@@ -182,8 +182,8 @@ async function generateAllQuestions() {
     console.log('🚀 Starting question generation...\n');
     console.log(`📚 Total lessons: ${lessons.length}`);
     console.log(`🎯 Difficulties: easy, medium, hard, mixed`);
-    console.log(`📝 Questions per difficulty: 20`);
-    console.log(`🔢 Total questions to generate: ${lessons.length * 4 * 20} = ${lessons.length * 80}\n`);
+    console.log(`📝 Questions per difficulty: 80`);
+    console.log(`🔢 Total questions to generate: ${lessons.length * 4 * 80} = ${lessons.length * 320}\n`);
 
     const allQuestions: Record<string, Record<DifficultyLevel, QuizQuestion[]>> = {};
     const difficulties: DifficultyLevel[] = ['easy', 'medium', 'hard', 'mixed'];
@@ -196,7 +196,7 @@ async function generateAllQuestions() {
         allQuestions[lesson.id] = {} as Record<DifficultyLevel, QuizQuestion[]>;
 
         for (const difficulty of difficulties) {
-            const questions = await generateQuestionsForLesson(lesson, difficulty, 20);
+            const questions = await generateQuestionsForLesson(lesson, difficulty, 80);
             allQuestions[lesson.id][difficulty] = questions;
 
             completedCount++;
@@ -214,7 +214,7 @@ async function generateAllQuestions() {
     const outputPath = path.join(__dirname, 'data', 'pregenerated-questions.ts');
     const fileContent = `// Auto-generated pregenerated questions
 // Generated: ${new Date().toISOString()}
-// Total questions: ${Object.keys(allQuestions).length * 4 * 20}
+// Total questions: ${Object.keys(allQuestions).length * 4 * 80}
 
 import { QuizQuestion, DifficultyLevel } from '../types';
 
