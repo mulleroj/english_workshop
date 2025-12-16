@@ -183,7 +183,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ question, onAnswer, isAnswered, sel
                 onClick={() => !isAnswered && onAnswer(option)}
                 disabled={isAnswered}
                 translate="no"
-                className={`text-lg py-4 font-bold ${isAnswered && option !== question.correctAnswer && option !== selectedAnswer ? 'opacity-30' : ''}`}
+                className={`text-lg py-4 font-bold ${isAnswered && option.toLowerCase() !== question.correctAnswer.toLowerCase() && option !== selectedAnswer ? 'opacity-30' : ''}`}
               >
                 {option}
               </Button>
